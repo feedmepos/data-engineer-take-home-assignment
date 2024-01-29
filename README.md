@@ -1,60 +1,77 @@
-Introduction:
-In this assessment, you will be tasked with designing a solution to consolidate transactional databases into a data warehouse. The task involves processing a MongoDB transactional database. Your goal is to choose a database for the data warehouse, implement a working application/data pipeline to continuously load data into data warehouse. Ensure data correctness, and data freshness. This note will guide you through the situation, questions, and offer advice to help you succeed in this assignment.
+## FeedMe Data Engineer Take Home Assignment
+Below is a take home assignment before the interview of the position. You are required to
+1. Understand the situation and use case. You may contact the interviewer for further clarification.
+2. Fork this repo and implement the requirement with your most familiar tools.
+3. Complete the requirement and perform your own testing.
+4. Provide documentation for the any part that you think is needed.
+5. Commit into your own github and share your repo with the interviewer.
+6. Bring the source code and functioning prototype to the interview session.
 
-Objective: Implement a solution to consolidate MongoDB transactional databases into a data warehouse.
+### Introduction
+In this assignment, your objective is to design a solution for the efficient movement and transformation of data from a database to a data warehouse.
+You have to host a SQL database as data warehouse, and build a data pipeline to continuously load data into data warehouse.
 
-Database Information:
+Data correctness: it is important to maintain data correctness.
 
-  - Data Credential: `Provided by FeedMe`
+Data freshness: it will be a plus if data changes reflect to data warehouse as soon as possible.
+
+### Database Information
+
+  - MongoDB
+
+  - Credential: `Provided by FeedMe`
 
   - Data Model:
-    | Enum: ITEM_STATUS |               |                |                  |
-    |-------------------|---------------|----------------|------------------|
-    | Value             | Meaning       |                |                  |
-    | `draft`           | Draft         |                |                  |
-    | `served`          | Served        |                |                  |
-    | `canceled`        | Canceled      |                |                  |
+    | Enum: ITEM_STATUS |               |
+    |-------------------|---------------|
+    | Value             | Meaning       |
+    | `draft`           | Draft         |
+    | `served`          | Served        |
+    | `canceled`        | Canceled      |
 
-    | Enum: ORDER_STATUS |               |                   |                  |
-    |---------------------|---------------|-------------------|------------------|
-    | Value               | Meaning       |                   |                  |
-    | `draft`             | Draft         |                   |                  |
-    | `completed`         | Completed     |                   |                  |
-    | `voided`            | Voided        |                   |                  |
+    | Enum: ORDER_STATUS  |               |
+    |---------------------|---------------|
+    | Value               | Meaning       |
+    | `draft`             | Draft         |
+    | `completed`         | Completed     |
+    | `voided`            | Voided        |
 
-    | Interface: IItem   |               |                  |                  |
-    |--------------------|---------------|------------------|------------------|
-    | Property           | Type          | Description      |                  |
-    | `name`             | string        | Item name        |                  |
-    | `status`           | ITEM_STATUS   | Item status      |                  |
-    | `quantity`         | number        | Item quantity    |                  |
-    | `price`            | number        | Item price       |                  |
-    | `total`            | number        | Total cost       |                  |
+    | Interface: Item    |               |                  |
+    |--------------------|---------------|------------------|
+    | Property           | Type          | Description      |
+    | `name`             | string        | Item name        |
+    | `status`           | ITEM_STATUS   | Item status      |
+    | `quantity`         | number        | Item quantity    |
+    | `price`            | number        | Item price       |
+    | `total`            | number        | Total cost       |
 
-    | Interface: IOrder  |               |                  |                  |
-    |--------------------|---------------|------------------|------------------|
-    | Property           | Type          | Description      |                  |
-    | `status`           | ORDER_STATUS  | Order status     |                  |
-    | `items`            | IItem[]       | Array of items   |                  |
-    | `total`            | number        | Order total      |                  |
-    | `timestamp`        | Date          | Order timestamp  |                  |
-    | `merchantId`       | number        | Merchant ID      |                  |
+    | Interface: Order   |               |                  |
+    |--------------------|---------------|------------------|
+    | Property           | Type          | Description      |
+    | `status`           | ORDER_STATUS  | Order status     |
+    | `items`            | Item[]        | Array of items   |
+    | `total`            | number        | Order total      |
+    | `timestamp`        | Date          | Order timestamp  |
+    | `merchantId`       | number        | Merchant ID      |
 
-Control Panel URL: [FeedMe Data Engineer Control Panel](https://feedme-data-engineer-assessment-frontend.pages.dev/)
+### Control Panel 
+  - [FeedMe Data Engineer Control Panel](https://feedme-data-engineer-assessment-frontend.pages.dev/)
+  - Control Panel Features:
+    - Random Button: Randomly creates/updates/deletes data in the database.
+    - Reset Button: Resets database to the initial state; may take a few minutes to fully reset.
   - Validation Queries:
     - Sales: Aggregate sum of order items' total.
     - Quantity: Aggregate count of orders.
     - Item Quantity: Aggregate sum of order items' quantity.
-  - Control Panel Features:
-    - Random Button: Randomly creates/updates/deletes data in the transactional database. Ensure this data successfully loads into the data warehouse.
-    - Reset Button: Resets data to the initial state; may take a few minutes.
  
-Requirements:
-  1. Generate the results for the three queries mentioned above to validate data correctness.
-  2. Press the "RANDOM" button in the Control Panel, and rerun the three queries to validate data correctness.
+### Demo
+  1. From data warehouse, generate the results for the three queries mentioned above to validate data correctness.
+  2. In the Control Panel, press "RANDOM" button to mock data changes, rerun step 1 queries to validate data correctness.
   3. Evaluate the data freshness, ensuring that the data is synced to the data warehouse as soon as possible.
   
-Tips:
-  - Choose a database your are familiar with. Priorize data correctness and data freshness instead of query performance.
+### Tips
+  - Choose the SQL database you are most familiar with as the data warehouse. 
+  - Priorize data correctness and data freshness instead of query performance in this assignment.
+  - Everything can be hosted locally if it will be more convenient for you.
+  - Consider utilizing [MongoDB Change Stream API](https://www.mongodb.com/docs/manual/changeStreams/#change-streams) if needed.
   - Avoid overengineering, scope your working hours within 3 hours, or 1 hour per day if busy.
-  - Consider leveraging the MongoDB Change Stream API if needed.
